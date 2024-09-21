@@ -1,0 +1,57 @@
+
+@using BlazorContactsApp.Services
+@using BlazorContactsApp.Components
+@using MudBlazor
+@inject ContactService ContactService
+@inject IDialogService DialogService
+
+
+<MudDialog>
+    <TitleContent>
+    Are you sure you want to delete this contact?
+    </TitleContent>
+    <DialogContent>
+       Contact Information
+    </DialogContent>
+        <DialogContent>
+            <MudStack>
+    <MudPaper Class="pa-3"> Name : @ContactName</MudPaper>
+    <MudPaper Class="pa-3">  Number :  @ContactNumber</MudPaper>
+   
+</MudStack>
+     
+       
+    </DialogContent>
+           
+    
+    
+    <DialogActions>
+            <MudButton @onclick="() => MudDialog?.Cancel()" Variant="Variant.Filled" Color="Color.Primary">Cancel</MudButton>
+        <MudButton Color="Color.Primary" @onclick="DeleteContactAsync">Yes</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+        [Parameter]
+    public Func<Task>? OnDelete { get; set; }
+
+        [Parameter]
+            public string? ContactName { get; set; }
+
+        [Parameter]
+            public string? ContactNumber { get; set; }
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+
+    private void Submit() => MudDialog?.Close(DialogResult.Ok(true));
+
+    private void Cancel() => MudDialog?.Cancel();
+
+        private async Task DeleteContactAsync()
+    {
+        if (OnDelete != null)
+        {
+            await OnDelete.Invoke();
+        }
+        MudDialog?.Close(DialogResult.Ok(true));
+    }
+}

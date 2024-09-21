@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/mattdiaz/Coding/blazor-contacts/BlazorContactsApp/obj/Debug/net8.0/scopedcss/projectbundle/BlazorContactsApp.bundle.scp.css",
+      "PackagePath": "staticwebassets/BlazorContactsApp.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/mattdiaz/Coding/blazor-contacts/BlazorContactsApp/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/Users/mattdiaz/Coding/blazor-contacts/BlazorContactsApp/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/mattdiaz/Coding/blazor-contacts/BlazorContactsApp/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/mattdiaz/Coding/blazor-contacts/BlazorContactsApp/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.BlazorContactsApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.BlazorContactsApp.props",
+      "PackagePath": "build\\BlazorContactsApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.BlazorContactsApp.props",
+      "PackagePath": "buildMultiTargeting\\BlazorContactsApp.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.BlazorContactsApp.props",
+      "PackagePath": "buildTransitive\\BlazorContactsApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

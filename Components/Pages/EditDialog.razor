@@ -1,0 +1,28 @@
+
+@using BlazorContactsApp.Services
+@using BlazorContactsApp.Components
+@using MudBlazor
+@inject ContactService ContactService
+@inject IDialogService DialogService
+
+
+<MudDialog>
+    <TitleContent>
+       Edit Contact
+    </TitleContent>
+    <DialogContent>
+        edit information for the following contact  
+    </DialogContent>
+    <DialogActions>
+            <MudButton @onclick="() => MudDialog.Cancel()" Variant="Variant.Filled" Color="Color.Primary">Cancel</MudButton>
+        <MudButton Color="Color.Primary" >Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    private void Cancel() => MudDialog.Cancel();
+}

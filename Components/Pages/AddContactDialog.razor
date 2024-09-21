@@ -1,0 +1,47 @@
+@* @using BlazorContactsApp.Services
+@using BlazorContactsApp.Components
+@using MudBlazor
+@inject ContactService ContactService
+@inject IDialogService DialogService
+
+<MudDialog>
+    <TitleContent OnClick="CloseDialogAsync">
+        Dialog Title
+    </TitleContent>
+    <DialogContent>
+        Dialog Content
+            <MudButton style="background-color: red" OnClick="CloseDialogAsync">Cancel</MudButton>
+        <MudButton style="background-color: green;" OnClick="Submit">Ok</MudButton>
+
+    </DialogContent>
+
+
+    
+    
+</MudDialog>
+@code {
+
+    [Parameter]
+    public EventCallback OnCancelled { get; set; }
+    
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+
+         private async Task CloseDialogAsync()
+    {
+        Console.WriteLine("CloseDialogAsync");
+       
+    }
+
+    private void Submit() => MudDialog?.Close(DialogResult.Ok(true));
+private void Cancel()
+{
+    Console.WriteLine("Cancel method called.");
+    MudDialog?.Cancel();
+}
+
+
+
+
+    
+}  *@

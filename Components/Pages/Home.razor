@@ -1,0 +1,111 @@
+﻿@using BlazorContactsApp.Services
+@using BlazorContactsApp.Components
+@using MudBlazor
+@inject ContactService ContactService
+@inject IDialogService DialogService
+
+@page "/"
+<div style="margin: 20px">
+    <MudButton @onclick="OpenDialogAsync" Variant="Variant.Filled" Color="Color.Primary">
+    Open Simple Dialog
+</MudButton>
+    <h1>Hello, world!</h1>
+    <p>Welcome to your new app.</p>
+</div>
+
+ @if (contacts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+        @foreach (var contact in contacts)
+        {
+            <MudCard Color="grey" style="border: 1px solid grey; margin: 2rem; width: 20vw; border-radius: 5px">
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">Name : @contact.Name</MudText>
+                </MudCardContent>
+                <MudDivider />
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">Number : @contact.Number</MudText>
+                </MudCardContent>
+                      <MudCardContent>
+                        <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="() => OpenDeleteDialogAsync(contact)">Delete</MudButton>    
+                           <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OpenEditDialogAsync">Edit</MudButton>    
+                      </MudCardContent>
+            </MudCard>
+        }
+
+} 
+
+@code {
+    private List<ContactsApi.Models.Contact> contacts = new List<ContactsApi.Models.Contact>();
+            private ContactsApi.Models.Contact selectedContact;
+
+
+         protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("OnInitializedAsync");
+        contacts = await ContactService.GetContactsAsync();
+    }
+
+   
+    
+
+   private async Task OpenDialogAsync()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, CloseButton = true };
+                var parameters = new DialogParameters
+        {
+            { "OnContactAdded", EventCallback.Factory.Create<ContactsApi.Models.Contact>(this, AddContact) }
+        };
+
+        var dialog = DialogService.Show<NewDialog>("Add Contact", parameters, options);
+        var result = await dialog.Result;
+
+      
+    }
+
+        private async Task AddContact(ContactsApi.Models.Contact contact)
+    {
+    Console.WriteLine($"AddContact: {contact.Name}");
+        contacts.Add(contact);
+    // Optionally, save the new contact to the database
+   await ContactService.AddContactAsync(contact);
+        }
+
+    private async Task DeleteContactAsync(ContactsApi.Models.Contact contact)
+    {
+        await ContactService.DeleteContactAsync(contact.Id);
+        contacts.Remove(contact);
+    }
+
+     private async Task OpenEditDialogAsync()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, CloseButton = true };
+        var parameters = new DialogParameters();
+
+        var dialog = DialogService.Show<EditDialog>("Edit Dialog", parameters, options);
+        var result = await dialog.Result;
+  
+    }
+
+        private async Task OpenDeleteDialogAsync( ContactsApi.Models.Contact contact)
+    {
+       selectedContact = contact;
+
+        var options = new DialogOptions { CloseOnEscapeKey = true,   MaxWidth = MaxWidth.ExtraLarge};
+        var parameters = new DialogParameters<DeleteConfirmationDialog>
+        {
+            { "ContactName", selectedContact.Name }, 
+            { "ContactNumber", selectedContact.Number },
+            { "OnDelete", new Func<Task>(async () => await DeleteContactAsync(selectedContact)) }
+        };
+
+        var dialog = DialogService.Show<DeleteConfirmationDialog>("Edit Dialog", parameters, options);
+        var result = await dialog.Result;
+  
+    }
+
+} 

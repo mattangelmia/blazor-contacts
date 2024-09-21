@@ -1,0 +1,53 @@
+
+@using BlazorContactsApp.Services
+@using BlazorContactsApp.Components
+@using MudBlazor
+@inject ContactService ContactService
+@inject IDialogService DialogService
+
+
+<MudDialog>
+    <TitleContent>
+        Add Contact
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTextField T="string" Label="Name" @bind-Value="ContactName" Required="true" RequiredError="Name is required!" />
+            <MudTextField T="string" Label="Number" @bind-Value="ContactNumber" Required="true" RequiredError="Number is required!" />
+        </MudForm>  
+    </DialogContent>
+    <DialogActions>
+            <MudButton @onclick="() => MudDialog.Cancel()" Variant="Variant.Filled" Color="Color.Primary">Cancel</MudButton>
+        <MudButton @onclick="Submit" Color="Color.Primary">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+     MudForm form;
+
+         [Parameter]
+    public string? ContactName { get; set; }
+
+    [Parameter]
+    public string? ContactNumber { get; set; }
+
+     [Parameter]
+    public EventCallback<ContactsApi.Models.Contact> OnContactAdded { get; set; }
+
+
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+
+    private async Task Submit()
+    {
+        var contactToAdd = new ContactsApi.Models.Contact
+        {
+            Name = ContactName,
+            Number = ContactNumber
+        };
+
+        await OnContactAdded.InvokeAsync(contactToAdd);
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
